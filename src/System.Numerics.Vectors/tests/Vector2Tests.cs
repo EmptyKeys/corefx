@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
+// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Globalization;
@@ -12,8 +12,8 @@ namespace System.Numerics.Tests
         [Fact]
         public void Vector2MarshalSizeTest()
         {
-            Assert.Equal(8, Marshal.SizeOf(typeof(Vector2)));
-            Assert.Equal(8, Marshal.SizeOf(new Vector2()));
+            Assert.Equal(8, Marshal.SizeOf<Vector2>());
+            Assert.Equal(8, Marshal.SizeOf<Vector2>(new Vector2()));
         }
 
         [Fact]
@@ -66,25 +66,25 @@ namespace System.Numerics.Tests
             string v1str = v1.ToString();
             string expectedv1 = string.Format(CultureInfo.CurrentCulture
                 , "<{1:G}{0} {2:G}>"
-                , separator, 2, 3);
+                , new object[] { separator, 2, 3 });
             Assert.Equal(expectedv1, v1str);
 
             string v1strformatted = v1.ToString("c", CultureInfo.CurrentCulture);
             string expectedv1formatted = string.Format(CultureInfo.CurrentCulture
                 , "<{1:c}{0} {2:c}>"
-                , separator, 2, 3);
+                , new object[] { separator, 2, 3 });
             Assert.Equal(expectedv1formatted, v1strformatted);
 
             string v2strformatted = v1.ToString("c", enUsCultureInfo);
             string expectedv2formatted = string.Format(enUsCultureInfo
                 , "<{1:c}{0} {2:c}>"
-                , enUsCultureInfo.NumberFormat.NumberGroupSeparator, 2, 3);
+                , new object[] { enUsCultureInfo.NumberFormat.NumberGroupSeparator, 2, 3 });
             Assert.Equal(expectedv2formatted, v2strformatted);
 
             string v3strformatted = v1.ToString("c");
             string expectedv3formatted = string.Format(CultureInfo.CurrentCulture
                 , "<{1:c}{0} {2:c}>"
-                , separator, 2, 3);
+                , new object[] { separator, 2, 3 });
             Assert.Equal(expectedv3formatted, v3strformatted);
         }
 
@@ -559,7 +559,7 @@ namespace System.Numerics.Tests
 
         // A test for Normalize (Vector2f)
         // Normalize zero length vector
-        //[Fact(Skip="GitHub Issue #22")]
+        [Fact]
         public void Vector2NormalizeTest1()
         {
             Vector2 a = new Vector2(); // no parameter, default to 0.0f
@@ -1109,22 +1109,22 @@ namespace System.Numerics.Tests
         [StructLayout(LayoutKind.Sequential)]
         struct Vector2_2x
         {
-            Vector2 a;
-            Vector2 b;
+            private Vector2 _a;
+            private Vector2 _b;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         struct Vector2PlusFloat
         {
-            Vector2 v;
-            float f;
+            private Vector2 _v;
+            private float _f;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         struct Vector2PlusFloat_2x
         {
-            Vector2PlusFloat a;
-            Vector2PlusFloat b;
+            private Vector2PlusFloat _a;
+            private Vector2PlusFloat _b;
         }
 
         [Fact]

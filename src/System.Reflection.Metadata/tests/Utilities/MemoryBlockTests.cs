@@ -12,32 +12,32 @@ namespace System.Reflection.Metadata.Tests
     public class MemoryBlockTests
     {
         [Fact]
-        public unsafe void Utf8NullTermintatedStringStartsWithAsciiPrefix()
+        public unsafe void Utf8NullTerminatedStringStartsWithAsciiPrefix()
         {
             byte[] heap;
 
             fixed (byte* heapPtr = (heap = new byte[] { 0 }))
             {
-                Assert.True(new MemoryBlock(heapPtr, heap.Length).Utf8NullTermintatedStringStartsWithAsciiPrefix(0, ""));
+                Assert.True(new MemoryBlock(heapPtr, heap.Length).Utf8NullTerminatedStringStartsWithAsciiPrefix(0, ""));
             }
 
             fixed (byte* heapPtr = (heap = Encoding.UTF8.GetBytes("Hello World!\0")))
             {
-                Assert.True(new MemoryBlock(heapPtr, heap.Length).Utf8NullTermintatedStringStartsWithAsciiPrefix("Hello ".Length, "World"));
-                Assert.False(new MemoryBlock(heapPtr, heap.Length).Utf8NullTermintatedStringStartsWithAsciiPrefix("Hello ".Length, "World?"));
+                Assert.True(new MemoryBlock(heapPtr, heap.Length).Utf8NullTerminatedStringStartsWithAsciiPrefix("Hello ".Length, "World"));
+                Assert.False(new MemoryBlock(heapPtr, heap.Length).Utf8NullTerminatedStringStartsWithAsciiPrefix("Hello ".Length, "World?"));
             }
 
             fixed (byte* heapPtr = (heap = Encoding.UTF8.GetBytes("x\0")))
             {
-                Assert.False(new MemoryBlock(heapPtr, heap.Length).Utf8NullTermintatedStringStartsWithAsciiPrefix(0, "xyz"));
-                Assert.True(new MemoryBlock(heapPtr, heap.Length).Utf8NullTermintatedStringStartsWithAsciiPrefix(0, "x"));
+                Assert.False(new MemoryBlock(heapPtr, heap.Length).Utf8NullTerminatedStringStartsWithAsciiPrefix(0, "xyz"));
+                Assert.True(new MemoryBlock(heapPtr, heap.Length).Utf8NullTerminatedStringStartsWithAsciiPrefix(0, "x"));
             }
 
             // bad metadata (#String heap is not nul-terminated):
             fixed (byte* heapPtr = (heap = Encoding.UTF8.GetBytes("abcx")))
             {
-                Assert.True(new MemoryBlock(heapPtr, heap.Length).Utf8NullTermintatedStringStartsWithAsciiPrefix(3, "x"));
-                Assert.False(new MemoryBlock(heapPtr, heap.Length).Utf8NullTermintatedStringStartsWithAsciiPrefix(3, "xyz"));
+                Assert.True(new MemoryBlock(heapPtr, heap.Length).Utf8NullTerminatedStringStartsWithAsciiPrefix(3, "x"));
+                Assert.False(new MemoryBlock(heapPtr, heap.Length).Utf8NullTerminatedStringStartsWithAsciiPrefix(3, "xyz"));
             }
         }
 
@@ -152,16 +152,16 @@ namespace System.Reflection.Metadata.Tests
 
         sealed class CustomDecoder : MetadataStringDecoder
         {
-            GetString getString;
+            private GetString _getString;
             public CustomDecoder(Encoding encoding, GetString getString)
                 : base(encoding)
             {
-                this.getString = getString;
+                _getString = getString;
             }
 
             public override unsafe string GetString(byte* bytes, int byteCount)
             {
-                return getString(bytes, byteCount);
+                return _getString(bytes, byteCount);
             }
         }
 
@@ -180,7 +180,7 @@ namespace System.Reflection.Metadata.Tests
                     Assert.True(ptr != null);
                     Assert.True(prefixed != (ptr == bytes));
                     Assert.Equal(prefixed ? "PrefixTest".Length : "Test".Length, byteCount);
-                    string s = new string((sbyte*)bytes, 0, byteCount, Encoding.UTF8);
+                    string s = Encoding.UTF8.GetString(bytes, byteCount);
                     Assert.Equal(s, prefixed ? "PrefixTest" : "Test");
                     return "Intercepted";
                 }
@@ -234,9 +234,8 @@ namespace System.Reflection.Metadata.Tests
             }
         }
 
-        // TODO: Issue #26: MetadataStringComparer needs to use the user-supplied encoding.
-        //       Add more test cases when fixing this and re-enabling the test.
-        /*[Fact]*/
+        [Fact]
+        [ActiveIssue(26)]
         public unsafe void ComparisonToInvalidByteSequenceMatchesFallback()
         {
             // dangling lead byte

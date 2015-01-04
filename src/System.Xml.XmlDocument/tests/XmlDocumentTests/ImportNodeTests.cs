@@ -10,6 +10,7 @@ namespace XmlDocumentTests.XmlDocumentTests
     public class ImportNodeTests
     {
         [Fact]
+        [ActiveIssue(208)]
         public static void ImportNullNode()
         {
             var xmlDocument = new XmlDocument();
@@ -19,6 +20,7 @@ namespace XmlDocumentTests.XmlDocumentTests
         }
 
         [Fact]
+        [ActiveIssue(208)]
         public static void ImportDocumentNode()
         {
             var xmlDocument = new XmlDocument();
@@ -29,6 +31,7 @@ namespace XmlDocumentTests.XmlDocumentTests
         }
 
         [Fact]
+        [ActiveIssue(208)]
         public static void ImportDocumentFragment()
         {
             var tempDoc = new XmlDocument();
@@ -47,6 +50,7 @@ namespace XmlDocumentTests.XmlDocumentTests
         }
 
         [Fact]
+        [ActiveIssue(208)]
         public static void ImportWhiteSpace()
         {
             var whitespace = "        ";
@@ -62,6 +66,7 @@ namespace XmlDocumentTests.XmlDocumentTests
         }
 
         [Fact]
+        [ActiveIssue(208)]
         public static void ImportSignificantWhitespace()
         {
             var whitespace = "        \t";
@@ -77,6 +82,7 @@ namespace XmlDocumentTests.XmlDocumentTests
         }
 
         [Fact]
+        [ActiveIssue(208)]
         public static void ImportElementDeepFalse()
         {
             var xmlDocument = new XmlDocument();
@@ -97,6 +103,7 @@ namespace XmlDocumentTests.XmlDocumentTests
         }
 
         [Fact]
+        [ActiveIssue(208)]
         public static void ImportElementDeepTrue()
         {
             var xmlDocument = new XmlDocument();
@@ -117,6 +124,7 @@ namespace XmlDocumentTests.XmlDocumentTests
         }
 
         [Fact]
+        [ActiveIssue(208)]
         public static void ImportAttributeDeepFalse()
         {
             var xmlDocument = new XmlDocument();

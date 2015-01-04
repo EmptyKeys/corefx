@@ -20,7 +20,8 @@ namespace XmlDocumentTests.XmlDocumentTests
             Assert.Equal(nodeName, newNode.Name);
         }
 
-        //[Fact(Skip = "Issue #18: Outer loop test")]
+        [Fact]
+        [OuterLoop]
         public static void LongElementName()
         {
             var xmlDocument = new XmlDocument();
@@ -60,6 +61,7 @@ namespace XmlDocumentTests.XmlDocumentTests
         }
 
         [Fact]
+        [ActiveIssue(208)]
         public static void NamespaceWithNoLocalName()
         {
             var xmlDocument = new XmlDocument();
@@ -67,6 +69,7 @@ namespace XmlDocumentTests.XmlDocumentTests
         }
 
         [Fact]
+        [ActiveIssue(208)]
         public static void NamespaceAndLocalNameWithColon()
         {
             var xmlDocument = new XmlDocument();
@@ -84,7 +87,8 @@ namespace XmlDocumentTests.XmlDocumentTests
             Assert.Equal("foo:bar", newNode.Name);
         }
 
-        /*[Fact] */
+        [Fact]
+        [ActiveIssue(228)]
         public static void NameWithWhitespace()
         {
             var xmlDocument = new XmlDocument();

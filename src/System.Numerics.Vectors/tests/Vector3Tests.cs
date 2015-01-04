@@ -12,8 +12,8 @@ namespace System.Numerics.Tests
         [Fact]
         public void Vector3MarshalSizeTest()
         {
-            Assert.Equal(12, Marshal.SizeOf(typeof(Vector3)));
-            Assert.Equal(12, Marshal.SizeOf(new Vector3()));
+            Assert.Equal(12, Marshal.SizeOf<Vector3>());
+            Assert.Equal(12, Marshal.SizeOf<Vector3>(new Vector3()));
         }
 
         [Fact]
@@ -739,7 +739,6 @@ namespace System.Numerics.Tests
             Assert.True(float.IsNegativeInfinity(actual.X), "Vector3f.operator / did not return the expected value.");
             Assert.True(float.IsPositiveInfinity(actual.Y), "Vector3f.operator / did not return the expected value.");
             Assert.True(float.IsPositiveInfinity(actual.Z), "Vector3f.operator / did not return the expected value.");
-
         }
 
         // A test for operator / (Vector3f, Vector3f)
@@ -1123,22 +1122,22 @@ namespace System.Numerics.Tests
         [StructLayout(LayoutKind.Sequential)]
         struct Vector3_2x
         {
-            Vector3 a;
-            Vector3 b;
+            private Vector3 _a;
+            private Vector3 _b;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         struct Vector3PlusFloat
         {
-            Vector3 v;
-            float f;
+            private Vector3 _v;
+            private float _f;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         struct Vector3PlusFloat_2x
         {
-            Vector3PlusFloat a;
-            Vector3PlusFloat b;
+            private Vector3PlusFloat _a;
+            private Vector3PlusFloat _b;
         }
 
         [Fact]
